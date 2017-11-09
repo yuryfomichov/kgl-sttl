@@ -14,7 +14,7 @@ class ShipsDataset(data.Dataset):
         band2 = np.array(self.data.iloc[index]['band_2']).reshape((75, 75, 1))
         img1 = band1
         img2 = band2
-        img3 = img1 / img2
+        img3 = (img1 + img2) / 2
         img1 = img1 - img1.min()
         img1 = img1 / img1.max() * 255
         img2 = img2 - img2.min()
