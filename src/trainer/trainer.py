@@ -4,14 +4,19 @@ import torch as torch
 from torch.utils.trainer.plugins import *
 from trainer.plugins.saverplugin import SaverPlugin
 from trainer.plugins.validationplugin import ValidationPlugin
+import torch.nn as nn
+from torch.autograd import Variable
+import numpy as np
 
 class BreedsTrainer(object):
-    def __init__(self, model, loader, criterion, optimizer):
+    def __init__(self, model, loader, criterion, optimizer, data_type):
+        self.data_type = data_type
         self.loader = loader
         self.trainer = Trainer(model=model,
                                dataset=self.loader.get_train_loader(),
                                criterion=criterion,
                                optimizer=optimizer)
+        self.model = model
         self.trainer.cuda = True if torch.cuda.is_available() else False
         self._register_plugins()
 
@@ -38,3 +43,17 @@ class BreedsTrainer(object):
                 self.trainer.train()
                 self.trainer.call_plugins('epoch', count + i)
             count += epoch
+            self.pseudo_labling()
+
+    def pseudo_labling(self):
+        batches = 2
+        i = 0
+        self.model.eval()
+        for x, y in self.loader.get_submission_loader():
+            _, result = nn.Softmax()(self.model(Variable(x.type(self.data_type), volatile=True))).data.cpu().max(1)
+            self.loader.train_data = (self.loader.train_data[0].append(self.loader.submission_data[0].loc[y]), np.hstack((self.loader.train_data[1], result.numpy())))
+            i = i+1
+            if i == batches:
+                break
+        self.trainer.dataset = self.loader.get_train_loader()
+        self.model.train()

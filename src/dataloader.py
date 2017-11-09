@@ -55,7 +55,7 @@ class ShipsLoader(object):
 
     def _load_submission_data(self):
         data = pd.read_json('data/test.json')
-        labels = np.zeros(data.shape[0])
+        labels = np.arange(0,data.shape[0],1)
         self.submission_data = (data, labels)
 
     def _combine_image(self, df):
