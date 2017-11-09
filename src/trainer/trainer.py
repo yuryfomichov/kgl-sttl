@@ -43,10 +43,10 @@ class BreedsTrainer(object):
                 self.trainer.train()
                 self.trainer.call_plugins('epoch', count + i)
             count += epoch
-            #self.pseudo_labling()
+            self.pseudo_labling()
 
     def pseudo_labling(self):
-        batches = 3
+        batches = 2
         i = 0
         self.model.eval()
         for x, y in self.loader.get_submission_loader():
