@@ -32,16 +32,13 @@ class ShipModel(nn.Module):
         # self._require_grad_false()
 
         self.classifier = nn.Sequential(
-            nn.Linear(224 * 9 * 9, 1024),
-            nn.BatchNorm1d(1024),
+            nn.Linear(224 * 9 * 9, 512),
+            nn.BatchNorm1d(512),
             nn.ReLU(True),
-            nn.Linear(1024, 1024),
-            nn.BatchNorm1d(1024),
+            nn.Linear(512, 512),
+            nn.BatchNorm1d(512),
             nn.ReLU(True),
-            nn.Linear(1024, 1024),
-            nn.BatchNorm1d(1024),
-            nn.ReLU(True),
-            nn.Linear(1024, num_classes),
+            nn.Linear(512, num_classes),
         )
         self._initialize_weights()
 
