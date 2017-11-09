@@ -42,11 +42,12 @@ class BreedsTrainer(object):
             for i in range(1, epoch + 1):
                 self.trainer.train()
                 self.trainer.call_plugins('epoch', count + i)
+                if (lr != lrs[0]):
+                    self.pseudo_labling()
             count += epoch
-            self.pseudo_labling()
 
     def pseudo_labling(self):
-        batches = 2
+        batches = 1
         i = 0
         self.model.eval()
         for x, y in self.loader.get_submission_loader():
