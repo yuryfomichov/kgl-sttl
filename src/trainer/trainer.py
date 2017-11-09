@@ -42,7 +42,7 @@ class BreedsTrainer(object):
             for i in range(1, epoch + 1):
                 self.trainer.train()
                 self.trainer.call_plugins('epoch', count + i)
-                if (lr != lrs[0]):
+                if (i > 6):
                     self.pseudo_labling()
             count += epoch
 
