@@ -24,15 +24,18 @@ class ShipModel(nn.Module):
             nn.Conv2d(160, 192, kernel_size=3, stride=1, padding=1),
             nn.BatchNorm2d(192),
             nn.ReLU(inplace=True),
-            nn.Conv2d(192, 256, kernel_size=3, stride=1, padding=1),
-            nn.BatchNorm2d(256),
+            nn.Conv2d(192, 224, kernel_size=3, stride=1, padding=1),
+            nn.BatchNorm2d(224),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2, stride=2),
         )
         # self._require_grad_false()
 
         self.classifier = nn.Sequential(
-            nn.Linear(256 * 8 * 8, 1024),
+            nn.Linear(224 * 9 * 9, 1024),
+            nn.BatchNorm1d(1024),
+            nn.ReLU(True),
+            nn.Linear(1024, 1024),
             nn.BatchNorm1d(1024),
             nn.ReLU(True),
             nn.Linear(1024, 1024),
