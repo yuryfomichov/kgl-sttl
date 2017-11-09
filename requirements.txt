@@ -1,0 +1,8 @@
+numpy
+scipy
+pillow
+pandas
+matplotlib
+scikit-learn
+six
+natsort
