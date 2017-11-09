@@ -23,7 +23,7 @@ def main():
     model = ShipModel().type(data_type)
     optimizer = optim.Adam(model.classifier.parameters())
     trainer = BreedsTrainer(model, loader, loss_fn, optimizer, data_type)
-    trainer.run(lrs=[2e-3, 4e-4, 1e-4, 2e-5], epochs=[5,5,5,5])
+    trainer.run(lrs=[5e-4, 1e-4, 3e-5, 1e-5], epochs=[5,5,5,5])
     #checkpoint_data = load_last_checkpoint('checkpoints')
     # if checkpoint_data is not None:
     #     (state_dict, epoch, iteration) = checkpoint_data
