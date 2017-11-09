@@ -7,29 +7,38 @@ class ShipModel(nn.Module):
     def __init__(self, num_classes=2):
         super(ShipModel, self).__init__()
         self.features = nn.Sequential(
-            nn.Conv2d(3, 128, kernel_size=3, stride=1, padding=1),
+            nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1),
+            nn.BatchNorm2d(64),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1),
             nn.BatchNorm2d(128),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2, stride=2),
-            nn.Conv2d(128, 256, kernel_size=3, stride=1, padding=1),
+            nn.Conv2d(128, 192, kernel_size=3, stride=1, padding=1),
+            nn.BatchNorm2d(192),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(192, 256, kernel_size=3, stride=1, padding=1),
             nn.BatchNorm2d(256),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2, stride=2),
             nn.Conv2d(256, 192, kernel_size=3, stride=1, padding=1),
             nn.BatchNorm2d(192),
             nn.ReLU(inplace=True),
+            nn.Conv2d(192, 128, kernel_size=3, stride=1, padding=1),
+            nn.BatchNorm2d(128),
+            nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2, stride=2),
         )
         # self._require_grad_false()
 
         self.classifier = nn.Sequential(
-            nn.Linear(192 * 7 * 7, 512),
-            nn.BatchNorm1d(512),
+            nn.Linear(128 * 7 * 7, 1024),
+            nn.BatchNorm1d(1024),
             nn.ReLU(True),
-            nn.Linear(512, 512),
-            nn.BatchNorm1d(512),
+            nn.Linear(1024, 1024),
+            nn.BatchNorm1d(1024),
             nn.ReLU(True),
-            nn.Linear(512, num_classes),
+            nn.Linear(1024, num_classes),
         )
         self._initialize_weights()
 
