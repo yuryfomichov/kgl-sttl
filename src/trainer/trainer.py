@@ -46,7 +46,7 @@ class BreedsTrainer(object):
             self.pseudo_labling()
 
     def pseudo_labling(self):
-        batches = 2
+        batches = 1
         i = 0
         self.model.eval()
         for x, y in self.loader.get_submission_loader():
