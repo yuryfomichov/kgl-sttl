@@ -10,7 +10,7 @@ from PIL import Image
 
 class ShipsLoader(object):
     def __init__(self, params):
-        self.validation_size = params.get("validation_size",0.0999)
+        self.validation_size = params.get("validation_size",0.1)
         self.batch_size = params.get("batch_size", 200)
         self.num_workers = params.get("num_workers", 8 if torch.cuda.is_available() else 0)
         self.shuffle = params.get("shuffle", True)
@@ -49,7 +49,7 @@ class ShipsLoader(object):
         (X_train, x_temp, y_train, y_temp) = train_test_split(ids, labels, test_size=self.validation_size,stratify=labels)
         self.train_data = (X_train, y_train)
 
-        (X_val, X_test, y_val, y_test) = train_test_split(x_temp, y_temp, test_size=0.01)
+        (X_val, X_test, y_val, y_test) = train_test_split(x_temp, y_temp, test_size=0.001)
         self.val_data = (X_val, y_val)
         self.test_data = (X_test, y_test)
 

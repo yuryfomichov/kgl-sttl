@@ -33,7 +33,7 @@ class ShipsDataset(data.Dataset):
     def _train_image_transform(self):
         transform = transforms.Compose([
             transforms.Scale(75),
-            transforms.RandomCrop(56),
+            transforms.RandomCrop(64),
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406],
@@ -43,7 +43,7 @@ class ShipsDataset(data.Dataset):
     def _val_image_transform(self):
         transform = transforms.Compose([
             transforms.Scale(75),
-            transforms.CenterCrop(56),
+            transforms.CenterCrop(64),
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                  std=[0.229, 0.224, 0.225])])
