@@ -8,33 +8,27 @@ class ShipModel(nn.Module):
 
         #self.model = models.resnet18(pretrained= False, num_classes = num_classes)
         self.features = nn.Sequential(
-            nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1),
-            nn.BatchNorm2d(64),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(64, 96, kernel_size=3, stride=1, padding=1),
-            nn.BatchNorm2d(96),
-            nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=2, stride=2),
-            nn.Conv2d(96, 128, kernel_size=3, stride=1, padding=1),
+            nn.Conv2d(3, 128, kernel_size=3, stride=1, padding=1),
             nn.BatchNorm2d(128),
             nn.ReLU(inplace=True),
-            nn.Conv2d(128, 160, kernel_size=3, stride=1, padding=1),
-            nn.BatchNorm2d(160),
-            nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2, stride=2),
-            nn.Conv2d(160, 192, kernel_size=3, stride=1, padding=1),
+            nn.Conv2d(128, 192, kernel_size=3, stride=1, padding=1),
             nn.BatchNorm2d(192),
             nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=2, stride=2),
             nn.Conv2d(192, 256, kernel_size=3, stride=1, padding=1),
             nn.BatchNorm2d(256),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2, stride=2),
-
+            nn.Conv2d(256, 384, kernel_size=3, stride=1, padding=1),
+            nn.BatchNorm2d(384),
+            nn.ReLU(inplace=True),
+            nn.AvgPool2d(kernel_size=8, stride=2),
         )
         # self._require_grad_false()
 
         self.classifier = nn.Sequential(
-            nn.Linear(256 * 8 * 8, 1024),
+            nn.Linear(384, 1024),
             nn.BatchNorm1d(1024),
             nn.ReLU(True),
             nn.Linear(1024, 1024),
