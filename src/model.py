@@ -6,7 +6,7 @@ class ShipModel(nn.Module):
     def __init__(self, num_classes=2):
         super(ShipModel, self).__init__()
 
-        self.model = self.densenet35(pretrained= False, num_classes = num_classes)
+        self.model = self.densenet35(num_classes = num_classes)
         self._initialize_weights()
 
     def forward(self, x):
@@ -36,6 +36,6 @@ class ShipModel(nn.Module):
         for p in self.features.parameters():
             p.requires_grad = False
 
-    def densenet35(pretrained=False, **kwargs):
+    def densenet35(self, **kwargs):
         return models.DenseNet(num_init_features=64, growth_rate=32, block_config=(2, 3, 6, 4), **kwargs)
 
