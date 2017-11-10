@@ -39,9 +39,9 @@ class ShipModel(nn.Module):
         self._initialize_weights()
 
     def forward(self, x):
-        x = self.features(x)
-        x = x.view(x.size(0), -1)
-        x = self.classifier(x)
+        x = self.model(x)
+        #x = x.view(x.size(0), -1)
+        #x = self.classifier(x)
         return x;
 
     def _initialize_weights(self):
