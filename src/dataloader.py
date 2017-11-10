@@ -24,10 +24,10 @@ class ShipsLoader(object):
         return self._get_loader(self.train_data, True, False)
 
     def get_val_loader(self):
-        return self._get_loader(self.val_data, False, False)
+        return self._get_loader(self.val_data, False, True)
 
     def get_test_loader(self):
-        return self._get_loader(self.test_data, False, False)
+        return self._get_loader(self.test_data, False, True)
 
     def get_submission_loader(self):
          return self._get_loader(self.submission_data, False, True)
