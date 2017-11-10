@@ -1,7 +1,7 @@
 import torch.nn as nn
+from torch.nn import functional as F
 import math
 import torchvision.models as models
-from transforms import functional as F
 
 class ShipModel(nn.Module):
     def __init__(self, num_classes=2):
