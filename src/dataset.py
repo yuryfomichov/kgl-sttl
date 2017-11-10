@@ -1,6 +1,6 @@
 import torch.utils.data as data
 import numpy as np
-import torchvision.transforms as transforms
+import transforms.transforms as transforms
 from PIL import Image
 
 class ShipsDataset(data.Dataset):
@@ -32,9 +32,11 @@ class ShipsDataset(data.Dataset):
 
     def _train_image_transform(self):
         transform = transforms.Compose([
-            transforms.Scale(300),
+            transforms.Resize(300),
             transforms.RandomCrop(224),
             transforms.RandomHorizontalFlip(),
+            transforms.RandomVerticalFlip(),
+            transforms.RandomRotation(1),
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                  std=[0.229, 0.224, 0.225])])
@@ -42,7 +44,7 @@ class ShipsDataset(data.Dataset):
 
     def _val_image_transform(self):
         transform = transforms.Compose([
-            transforms.Scale(225),
+            transforms.Resize(225),
             transforms.CenterCrop(224),
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406],
