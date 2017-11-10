@@ -10,7 +10,7 @@ from PIL import Image
 
 class ShipsLoader(object):
     def __init__(self, params):
-        self.validation_size = params.get("validation_size",0.2)
+        self.validation_size = params.get("validation_size",0.1)
         self.batch_size = params.get("batch_size", 200)
         self.num_workers = params.get("num_workers", 8 if torch.cuda.is_available() else 0)
         self.shuffle = params.get("shuffle", True)
