@@ -10,7 +10,7 @@ from natsort import natsorted
 from torch.autograd import Variable
 from dataloader import ShipsLoader
 from model import ShipModel
-from trainer.trainer import BreedsTrainer
+from trainer.trainer import ShipsTrainer
 from trainer.plugins.saverplugin import SaverPlugin
 
 data_type = torch.cuda.FloatTensor if torch.cuda.is_available() else torch.FloatTensor
@@ -21,8 +21,8 @@ def main():
         'batch_size': 160
     })
     model = ShipModel().type(data_type)
-    optimizer = optim.Adam(model.classifier.parameters())
-    trainer = BreedsTrainer(model, loader, loss_fn, optimizer, data_type)
+    optimizer = optim.Adam(model.parameters())
+    trainer = ShipsTrainer(model, loader, loss_fn, optimizer, data_type)
     trainer.run(lrs=[3e-4, 1e-4, 3e-5, 1e-5], epochs=[5,5,5,5])
     #checkpoint_data = load_last_checkpoint('checkpoints')
     # if checkpoint_data is not None:

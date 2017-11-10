@@ -8,7 +8,7 @@ import torch.nn as nn
 from torch.autograd import Variable
 import numpy as np
 
-class BreedsTrainer(object):
+class ShipsTrainer(object):
     def __init__(self, model, loader, criterion, optimizer, data_type):
         self.data_type = data_type
         self.loader = loader
