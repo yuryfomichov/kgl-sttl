@@ -2,7 +2,6 @@ import torch.nn as nn
 import math
 import torchvision.models as models
 
-
 class ShipModel(nn.Module):
     def __init__(self, num_classes=2):
         super(ShipModel, self).__init__()
