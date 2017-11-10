@@ -37,5 +37,5 @@ class ShipModel(nn.Module):
             p.requires_grad = False
 
     def densenet65(self, **kwargs):
-        return models.DenseNet(num_init_features=64, growth_rate=32, block_config=(4, 6, 12, 8), **kwargs)
+        return models.DenseNet(num_init_features=64, growth_rate=12, block_config=(4, 6, 12, 8), **kwargs)
 
