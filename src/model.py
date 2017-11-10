@@ -1,6 +1,7 @@
 import torch.nn as nn
 import math
 import torchvision.models as models
+from transforms import functional as F
 
 class ShipModel(nn.Module):
     def __init__(self, num_classes=2):
@@ -37,5 +38,20 @@ class ShipModel(nn.Module):
             p.requires_grad = False
 
     def densenet63(self, **kwargs):
-        return models.DenseNet(num_init_features=64, growth_rate=32, block_config=(3, 6, 12, 8), **kwargs)
+        return DenseNet(num_init_features=64, growth_rate=32, block_config=(3, 6, 12, 8), **kwargs)
+
+
+class DenseNet(models.DenseNet):
+    def __init__(self, growth_rate=32, block_config=(6, 12, 24, 16),
+                 num_init_features=64, bn_size=4, drop_rate=0, num_classes=1000):
+        super(DenseNet, self).__init__(growth_rate=growth_rate, block_config=block_config,
+                 num_init_features=num_init_features, bn_size=bn_size, drop_rate=drop_rate, num_classes=num_classes)
+
+    def forward(self, x):
+        features = self.features(x)
+        out = F.relu(features, inplace=True)
+        out = F.avg_pool2d(out, kernel_size=4).view(features.size(0), -1)
+        out = self.classifier(out)
+        return out
+
 
