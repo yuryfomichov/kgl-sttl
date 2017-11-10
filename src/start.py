@@ -23,7 +23,7 @@ def main():
     model = ShipModel().type(data_type)
     optimizer = optim.Adam(model.parameters())
     trainer = ShipsTrainer(model, loader, loss_fn, optimizer, data_type)
-    trainer.run(lrs=[1e-3, 1e-4, 1e-5, 1e-6], epochs=[10,10,10,10])
+    trainer.run(lrs=[1e-3, 1e-4, 1e-5], epochs=[10,10,10])
     #checkpoint_data = load_last_checkpoint('checkpoints')
     # if checkpoint_data is not None:
     #     (state_dict, epoch, iteration) = checkpoint_data
@@ -47,8 +47,23 @@ def load_last_checkpoint(checkpoints_path):
     else:
         return None
 
+def load_best_checkpoint(checkpoints_path):
+    checkpoints_pattern = os.path.join(
+        checkpoints_path, SaverPlugin.best_pattern.format('*', '*')
+    )
+    checkpoint_paths = natsorted(glob.glob(checkpoints_pattern))
+    if len(checkpoint_paths) > 0:
+        checkpoint_path = checkpoint_paths[-1]
+        checkpoint_name = os.path.basename(checkpoint_path)
+        match = re.match(SaverPlugin.best_pattern.format(r'(\d+)', r'(\d+)'), checkpoint_name)
+        epoch = int(match.group(1))
+        iteration = int(match.group(2))
+        return (torch.load(checkpoint_path), epoch, iteration)
+    else:
+        return None
+
 def get_submission():
-    (state_dict, epoch, iteration) = load_last_checkpoint('checkpoints')
+    (state_dict, epoch, iteration) = load_best_checkpoint('checkpoints')
     model = ShipModel()
     model = model.type(data_type)
     model.load_state_dict(state_dict)
