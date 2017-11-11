@@ -9,7 +9,7 @@ class ShipModel(nn.Module):
 
         self.features = models.densenet121(pretrained = True, num_classes = 1000).features
         self.classifier = nn.Sequential(
-            nn.Linear(512 * 4 * 4,1024),
+            nn.Linear(1024 * 4 * 4,1024),
             nn.ReLU(True),
             nn.BatchNorm1d(1024),
             nn.Linear(1024, 1024),
