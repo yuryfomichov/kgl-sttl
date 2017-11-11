@@ -24,7 +24,6 @@ class ShipModel(nn.Module):
         features = self.features(x)
         out = F.relu(features, inplace=True)
         out = out.view(out.size(0), -1)
-        print(out.size())
         out = self.classifier(out)
         return out
 
