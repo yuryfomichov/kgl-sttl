@@ -7,25 +7,28 @@ class ShipModel(nn.Module):
     def __init__(self, num_classes=2):
         super(ShipModel, self).__init__()
 
-        self.model = self.densenet63(num_classes = num_classes)
+        self.features = models.densenet121(pretrained = True, num_classes = num_classes).features
+        self.classifier = nn.Sequential(
+            nn.Linear(512 * 4 * 4,1024),
+            nn.ReLU(True),
+            nn.BatchNorm1d(1024),
+            nn.Linear(1024, 1024),
+            nn.ReLU(True),
+            nn.BatchNorm1d(1024),
+            nn.Linear(1024, num_classes),
+        )
+        self._require_grad_false()
         self._initialize_weights()
 
     def forward(self, x):
-        x = self.model(x)
-        #x = x.view(x.size(0), -1)
-        #x = self.classifier(x)
-        return x;
+        features = self.features(x)
+        out = F.relu(features, inplace=True)
+        out = out.view(out.size(0), -1)
+        out = self.classifier(out)
+        return out
 
     def _initialize_weights(self):
         for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
-                m.weight.data.normal_(0, math.sqrt(2. / n))
-                if m.bias is not None:
-                    m.bias.data.zero_()
-            elif isinstance(m, nn.BatchNorm2d):
-                m.weight.data.fill_(1)
-                m.bias.data.zero_()
             if isinstance(m, nn.BatchNorm1d):
                 m.weight.data.fill_(1)
                 m.bias.data.zero_()
@@ -50,7 +53,7 @@ class DenseNet(models.DenseNet):
     def forward(self, x):
         features = self.features(x)
         out = F.relu(features, inplace=True)
-        out = F.avg_pool2d(out, kernel_size=4).view(features.size(0), -1)
+        out = out.view(-1)
         out = self.classifier(out)
         return out
 
