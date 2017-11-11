@@ -9,13 +9,13 @@ class ShipModel(nn.Module):
 
         self.features = models.densenet121(pretrained = True, num_classes = 1000).features
         self.classifier = nn.Sequential(
-            nn.Linear(1024 * 4 * 4,1024),
+            nn.Linear(1024,2048),
             nn.ReLU(True),
-            nn.BatchNorm1d(1024),
-            nn.Linear(1024, 1024),
+            nn.BatchNorm1d(2048),
+            nn.Linear(2048, 2048),
             nn.ReLU(True),
-            nn.BatchNorm1d(1024),
-            nn.Linear(1024, num_classes),
+            nn.BatchNorm1d(2048),
+            nn.Linear(2048, num_classes),
         )
         self._require_grad_false()
         self._initialize_weights()
@@ -53,7 +53,7 @@ class DenseNet(models.DenseNet):
     def forward(self, x):
         features = self.features(x)
         out = F.relu(features, inplace=True)
-        out = out.view(-1)
+        out = F.avg_pool2d(out, kernel_size=4).view(features.size(0), -1)
         out = self.classifier(out)
         return out
 
