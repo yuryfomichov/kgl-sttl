@@ -7,7 +7,7 @@ class ShipModel(nn.Module):
     def __init__(self, num_classes=2):
         super(ShipModel, self).__init__()
 
-        self.features = models.densenet121(pretrained = True, num_classes = num_classes).features
+        self.features = models.densenet121(pretrained = True, num_classes = 1000).features
         self.classifier = nn.Sequential(
             nn.Linear(512 * 4 * 4,1024),
             nn.ReLU(True),
