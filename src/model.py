@@ -7,7 +7,7 @@ class ShipModel(nn.Module):
     def __init__(self, num_classes=2):
         super(ShipModel, self).__init__()
 
-        self.model = self.densenet63(num_classes = num_classes)
+        self.model = models.densenet121(pretrained=True)
         self._initialize_weights()
 
     def forward(self, x):

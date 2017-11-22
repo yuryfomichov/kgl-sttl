@@ -18,7 +18,7 @@ def main():
     print('IsCuda', torch.cuda.is_available())
     loss_fn = nn.CrossEntropyLoss().type(data_type)
     loader = ShipsLoader({
-        'batch_size': 206
+        'batch_size': 80
     })
     model = ShipModel().type(data_type)
     optimizer = optim.Adam(model.parameters())
