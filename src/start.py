@@ -21,7 +21,7 @@ def main():
         'batch_size': 80
     })
     model = ShipModel().type(data_type)
-    optimizer = optim.Adam(model.classifier.parameters())
+    optimizer = optim.Adam(model.parameters())
     trainer = ShipsTrainer(model, loader, loss_fn, optimizer, data_type)
     trainer.run(lrs=[1e-3, 1e-4, 1e-5], epochs=[10,10,10])
     #checkpoint_data = load_last_checkpoint('checkpoints')
